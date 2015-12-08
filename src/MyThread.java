@@ -11,6 +11,13 @@ public class MyThread implements Runnable{
 
     private int Glj ;
 
+
+    public ArrayList<Integer> getLengthRes() {
+        return lengthRes;
+    }
+
+    private ArrayList<Integer> lengthRes = new ArrayList<Integer>();
+
     @SerializedName("long")
     private int length;
 
@@ -36,10 +43,11 @@ public class MyThread implements Runnable{
         return name;
     }
 
-    public MyThread(String name,int length , ArrayList<Res> res){
+    public MyThread(String name,int length , ArrayList<Res> res ,ArrayList<Integer> lengthRes){
         this.name = name;
         this.length = length;
         this.arrayRes = res;
+        this.lengthRes = lengthRes;
     }
 
     @Override
@@ -49,8 +57,9 @@ public class MyThread implements Runnable{
             System.out.println("Длинна потока = " + this.length);
 
                 for (int j = 0; j < arrayRes.size(); j++) {
-                    if(!arrayRes.get(j).getIsUsed())
+                    if(!arrayRes.get(j).getIsUsed()){
                     arrayRes.get(j).setIsUsed(true);
+                    }
                     else {
                         Glj = j;
                         Thread m1= (new Thread(new Runnable() {
@@ -58,9 +67,9 @@ public class MyThread implements Runnable{
                             public void run() {
                                 for (int i = 0; i < arrayRes.size() ; i++) {
                                     if (arrayRes.get(i).getIsUsed()) {
-                                        for (int k = 0; k < arrayRes.get(i).getLenght(); k++) {
+                                        while(arrayRes.get(i).getLenght() >=0) {
                                             for (int j = 0; j < arrayRes.size(); j++) {
-                                                System.out.print("Время выполнения ресурса " + arrayRes.get(i).getName() + " - " + (arrayRes.get(i).getLenght() - 1));
+                                                System.out.print("Время ожидания ресурса " + arrayRes.get(i).getName() + " - " + arrayRes.get(i).getLenght());
                                                 System.out.println();
                                                 arrayRes.get(i).setLenght(arrayRes.get(i).getLenght() - 1);
                                             try {
@@ -77,10 +86,13 @@ public class MyThread implements Runnable{
                         m1.start();
 
                         while(m1.isAlive())
-                            Thread.sleep(1);
-
+                            Thread.sleep(100);
                     }
                 }
+
+            for (int i = 0; i < arrayRes.size(); i++) {
+                arrayRes.get(i).setLenght(lengthRes.get(i));
+            }
                     for (int i = 0; i < length; i++) {
                 Thread.sleep(100);
                 System.out.print("Время потока " + name + " - " + (length - i));
