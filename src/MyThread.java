@@ -9,6 +9,7 @@ public class MyThread implements Runnable{
     @SerializedName("name")
     private String name;
 
+
     private int Glj ;
 
 
@@ -56,11 +57,14 @@ public class MyThread implements Runnable{
         try {
             System.out.println("Длинна потока = " + this.length);
 
+            //проверяем всели ресурсы нужные нам свободны
                 for (int j = 0; j < arrayRes.size(); j++) {
+                    //если ресурс доступен, то блокируем его
                     if(!arrayRes.get(j).getIsUsed()){
                     arrayRes.get(j).setIsUsed(true);
                     }
                     else {
+                        //если не все свободны, то запускаем их выполнение и ждём освобождение
                         Glj = j;
                         Thread m1= (new Thread(new Runnable() {
                             @Override
@@ -79,21 +83,25 @@ public class MyThread implements Runnable{
                                             }
                                         }
                                     }}
+                                    //когда ресурсы освобождаются меняем параметр
                                     else arrayRes.get(i).setIsUsed(false);
                                 }
                             }
                         }));
                         m1.start();
 
+                        //ожидаем освобождение ресурсов
                         while(m1.isAlive())
                             Thread.sleep(100);
                     }
                 }
 
+            //заполняем время использования ресурса
             for (int i = 0; i < arrayRes.size(); i++) {
                 arrayRes.get(i).setLenght(lengthRes.get(i));
             }
-                    for (int i = 0; i < length; i++) {
+            //цикл выывода на экран времени выполнения потока и его ресурсов
+            for (int i = 0; i < length; i++) {
                 Thread.sleep(100);
                 System.out.print("Время потока " + name + " - " + (length - i));
                 for (int j = 0; j < arrayRes.size(); j++) {
@@ -107,6 +115,7 @@ public class MyThread implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        // освобождаем есурсы которые больше не нужны
         for (int j = 0; j < arrayRes.size(); j++) {
             if(arrayRes.get(j).getLenght() < 1)
             arrayRes.get(j).setIsUsed(false);

@@ -24,10 +24,15 @@ public class ControlThread {
         Gson g = new Gson() ;
         ArrayList<Res> globalRes = new ArrayList<>();
         json = g.fromJson(read.getKey(), JsonElement.class).getAsJsonArray();
+
+
+        //создаём список ресурсов, чтобы передавать их в локальные списки у каждого потока
+            //создаём json массив
         for (int j = 0; j < json.size(); j++) {
 
             JsonArray jarr = g.fromJson(json.get(j).getAsJsonObject().get("Res"),JsonElement.class).getAsJsonArray();
 
+            //пихаем в список ресурсов все ресурсы какие есть во входном файле у всех потоков
         for (int i = 0; i < jarr.size(); i++) {
             globalRes.add(new Res(jarr.get(i).getAsJsonObject().get("res").getAsString()));
         }
@@ -35,6 +40,7 @@ public class ControlThread {
         ArrayList<Integer> m = new ArrayList();
         ArrayList<String> buf = new ArrayList<>();
         buf.add("");
+            //ищем среди них дубликаты чтобы удалить их
         for (int i = 0; i < globalRes.size(); i++) {
             for (int j = 0; j < globalRes.size(); j++) {
                 if (globalRes.get(i).getName().equals(globalRes.get(j).getName()) && i !=j) {
@@ -50,6 +56,7 @@ public class ControlThread {
                 }
             }
         }
+            //сортируем список на удаление чтобы удалять с конца
         for (int i = 0; i < m.size(); i++) {
             for (int j = 0; j < m.size(); j++) {
                 int bufer = 0;
@@ -61,11 +68,12 @@ public class ControlThread {
             }
         }
 
-
+            //удаляем дубликаты и получаем список уникальных ресурсов
         for (int i = 0; i < m.size(); i++) {
             globalRes.remove(globalRes.get(m.get(i)));
         }
 
+        // Формируем список потоков для запуска
         for (int i = 0; i < json.size(); i++) {
             JsonArray jarr = g.fromJson(json.get(i).getAsJsonObject().get("Res"),JsonElement.class).getAsJsonArray();
             ArrayList<Res> res = new ArrayList<Res>();
@@ -84,6 +92,8 @@ public class ControlThread {
             listThread.add(new MyThread(json.get(i).getAsJsonObject().get("name").getAsString(), json.get(i).getAsJsonObject().get("long").getAsInt(), res, lengthRes));
         }
 
+
+        //создаём поток который будет запускать потоки(симуляция процессора)
         Thread y = (new Thread(new Runnable() {
             int number = 0;
             @Override
@@ -100,12 +110,13 @@ public class ControlThread {
                             System.out.print("Имя потока: " + listThread.get(i).getName() + "  Длинна потока: " + listThread.get(i).getLength());
                             System.out.print("  Ресурсы потока : ");
                             for (int j = 0; j < listThread.get(i).getArrayRes().size(); j++) {
-                                System.out.print(" Имя "+ listThread.get(i).getArrayRes().get(j).getName() + " Длительность " + listThread.get(i).getLengthRes().get(j));
+                                System.out.print(" Имя " + listThread.get(i).getArrayRes().get(j).getName() + " Длительность " + listThread.get(i).getLengthRes().get(j));
                             }
                             System.out.println();
                         }
 
                         m.run();
+                        //пока поток работает процессор ожидает
                         while (m.isAlive()) {
                             try {
                                 Thread.sleep(1);
@@ -113,9 +124,10 @@ public class ControlThread {
                                 e.printStackTrace();
                             }
                         }
-
+                        //когда поток завершился он удаляется из очереди потоков
                         listThread.remove(number);
 
+                        //задержка переключения между потоками
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e1) {
@@ -129,6 +141,7 @@ public class ControlThread {
         }));
         y.start();
     }
+    //поиск минимального потока(необходимое условие в соответствии с заданием)
     public int SearchMinLength() {
         int position = 0;
         int min = 10000;

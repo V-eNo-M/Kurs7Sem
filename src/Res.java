@@ -2,6 +2,7 @@
  * Created by 1 on 07.12.2015.
  */
 public class Res {
+    // класс ресурса
     private String name;
     private int lenght = 0;
     private boolean isUsed = false;
