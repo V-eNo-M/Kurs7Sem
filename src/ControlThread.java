@@ -107,7 +107,7 @@ public class ControlThread {
                             System.out.print("Имя потока: " + listThread.get(i).getName() + "  Длинна потока: " + listThread.get(i).getLength());
                             System.out.print("  Ресурсы потока : ");
                             for (int j = 0; j < listThread.get(i).getArrayRes().size(); j++) {
-                                System.out.print(" Имя " + listThread.get(i).getArrayRes().get(j).getName() + " Длительность " + listThread.get(i).getLengthRes().get(j));
+                                System.out.print(" Имя " + listThread.get(i).getArrayRes().get(j).getName() + " Вероятность " + listThread.get(i).getLengthRes().get(j));
                             }
                             System.out.println();
                         }
