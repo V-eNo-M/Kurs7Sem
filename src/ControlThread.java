@@ -38,24 +38,21 @@ public class ControlThread {
         }
         }
         ArrayList<Integer> m = new ArrayList();
-        ArrayList<String> buf = new ArrayList<>();
-        buf.add("");
-            //ищем среди них дубликаты чтобы удалить их
+        ArrayList<Res> buf = new ArrayList<>();
+
+        buf.add(globalRes.get(0));
+           //ищем среди них дубликаты чтобы удалить их
         for (int i = 0; i < globalRes.size(); i++) {
-            for (int j = 0; j < globalRes.size(); j++) {
-                if (globalRes.get(i).getName().equals(globalRes.get(j).getName()) && i !=j) {
                     for (int k = 0; k < buf.size(); k++) {
-                        if(globalRes.get(j).getName().equals(buf.get(k)))
+                        if(globalRes.get(i).getName().equals(buf.get(k).getName()))
                             break;
                         else if (k == buf.size()-1){
-                            buf.add(globalRes.get(j).getName());
-                            m.add(j);
+                            buf.add(globalRes.get(i));
                         }
-
-                    }
                 }
-            }
         }
+        globalRes = buf;
+        /*
             //сортируем список на удаление чтобы удалять с конца
         for (int i = 0; i < m.size(); i++) {
             for (int j = 0; j < m.size(); j++) {
@@ -71,7 +68,7 @@ public class ControlThread {
             //удаляем дубликаты и получаем список уникальных ресурсов
         for (int i = 0; i < m.size(); i++) {
             globalRes.remove(globalRes.get(m.get(i)));
-        }
+        }*/
 
         // Формируем список потоков для запуска
         for (int i = 0; i < json.size(); i++) {

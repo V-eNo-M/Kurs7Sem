@@ -61,7 +61,7 @@ public class MyThread implements Runnable{
                 for (int j = 0; j < arrayRes.size(); j++) {
                     //если ресурс доступен, то блокируем его
                     if(!arrayRes.get(j).getIsUsed()){
-                    arrayRes.get(j).setIsUsed(true);
+                   // arrayRes.get(j).setIsUsed(true);
                     }
                     else {
                         //если не все свободны, то запускаем их выполнение и ждём освобождение
@@ -99,6 +99,7 @@ public class MyThread implements Runnable{
             //заполняем время использования ресурса
             for (int i = 0; i < arrayRes.size(); i++) {
                 arrayRes.get(i).setLenght(lengthRes.get(i));
+                arrayRes.get(i).setIsUsed(true);
             }
             //цикл выывода на экран времени выполнения потока и его ресурсов
             for (int i = 0; i < length; i++) {
