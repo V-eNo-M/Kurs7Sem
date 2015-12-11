@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Created by 1 on 15.11.2015.
+ * Created by Lida on 15.11.2015.
  */
 public class ReadFromFile {
     private String key = "";

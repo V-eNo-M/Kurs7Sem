@@ -1,17 +1,13 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import sun.swing.BakedArrayList;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 /**
- * Created by 1 on 01.10.2015.
+ * Created by Lida on 01.10.2015.
  */
 public class ControlThread {
     List<MyThread> listThread = new ArrayList<MyThread>();
@@ -52,23 +48,6 @@ public class ControlThread {
                 }
         }
         globalRes = buf;
-        /*
-            //сортируем список на удаление чтобы удалять с конца
-        for (int i = 0; i < m.size(); i++) {
-            for (int j = 0; j < m.size(); j++) {
-                int bufer = 0;
-                if (m.get(i) < m.get(j) && i < j) {
-                    bufer = m.get(j);
-                    m.set(j,m.get(i));
-                    m.set(i,bufer);
-                }
-            }
-        }
-
-            //удаляем дубликаты и получаем список уникальных ресурсов
-        for (int i = 0; i < m.size(); i++) {
-            globalRes.remove(globalRes.get(m.get(i)));
-        }*/
 
         // Формируем список потоков для запуска
         for (int i = 0; i < json.size(); i++) {
@@ -83,7 +62,6 @@ public class ControlThread {
                     }
                 }
                 lengthRes.add(jarr.get(j).getAsJsonObject().get("long").getAsInt());
-                //res.get(j).setLenght(jarr.get(j).getAsJsonObject().get("long").getAsInt());
             }
 
             listThread.add(new MyThread(json.get(i).getAsJsonObject().get("name").getAsString(), json.get(i).getAsJsonObject().get("long").getAsInt(), res, lengthRes));
@@ -92,15 +70,14 @@ public class ControlThread {
 
         //создаём поток который будет запускать потоки(симуляция процессора)
         Thread y = (new Thread(new Runnable() {
-            int number = 0;
+           // int number = 0;
             @Override
             public void run() {
                // while (listThread.size() > 0) {
                 while(listThread.size()>0) {
                     try {
-                        number = SearchMinLength();
-                        Thread m = new Thread(listThread.get(number));
-                        //System.out.println(listThread.get(number).getLength());
+                        //number = SearchMinLength();
+                        Thread m = new Thread(listThread.get(0));
                         System.out.println("Сейчас в очереди: " + listThread.size());
 
                         for (int i = 0; i < listThread.size(); i++) {
@@ -122,7 +99,7 @@ public class ControlThread {
                             }
                         }
                         //когда поток завершился он удаляется из очереди потоков
-                        listThread.remove(number);
+                        listThread.remove(0);
 
                         //задержка переключения между потоками
                         try {
@@ -139,15 +116,4 @@ public class ControlThread {
         y.start();
     }
     //поиск минимального потока(необходимое условие в соответствии с заданием)
-    public int SearchMinLength() {
-        int position = 0;
-        int min = 10000;
-        for (int i = 0; i < listThread.size(); i++) {
-            if(listThread.get(i).getLength() < min) {
-                min = listThread.get(i).getLength();
-                position = i;
-            }
-        }
-        return position;
-    }
 }

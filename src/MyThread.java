@@ -1,10 +1,8 @@
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by 1 on 01.10.2015.
+ * Created by Lida on 01.10.2015.
  */
 public class MyThread implements Runnable{
     private String name;
