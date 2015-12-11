@@ -61,7 +61,7 @@ public class ControlThread {
                         res.add(n);
                     }
                 }
-                lengthRes.add(jarr.get(j).getAsJsonObject().get("long").getAsInt());
+                lengthRes.add(jarr.get(j).getAsJsonObject().get("ver").getAsInt());
             }
 
             listThread.add(new MyThread(json.get(i).getAsJsonObject().get("name").getAsString(), json.get(i).getAsJsonObject().get("long").getAsInt(), res, lengthRes));
@@ -84,7 +84,7 @@ public class ControlThread {
                             System.out.print("Имя потока: " + listThread.get(i).getName() + "  Длинна потока: " + listThread.get(i).getLength());
                             System.out.print("  Ресурсы потока : ");
                             for (int j = 0; j < listThread.get(i).getArrayRes().size(); j++) {
-                                System.out.print(" Имя " + listThread.get(i).getArrayRes().get(j).getName() + " Вероятность " + listThread.get(i).getLengthRes().get(j));
+                                System.out.print(" Имя " + listThread.get(i).getArrayRes().get(j).getName() + " Вероятность " + listThread.get(i).getVerRes().get(j));
                             }
                             System.out.println();
                         }

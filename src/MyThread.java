@@ -6,12 +6,12 @@ import java.util.Random;
  */
 public class MyThread implements Runnable{
     private String name;
-    
-    public ArrayList<Integer> getLengthRes() {
-        return lengthRes;
+
+    public ArrayList<Integer> getVerRes() {
+        return verRes;
     }
 
-    private ArrayList<Integer> lengthRes = new ArrayList<Integer>();
+    private ArrayList<Integer> verRes = new ArrayList<Integer>();
 
     private int length;
 
@@ -37,11 +37,11 @@ public class MyThread implements Runnable{
         return name;
     }
 
-    public MyThread(String name,int length , ArrayList<Res> res ,ArrayList<Integer> lengthRes){
+    public MyThread(String name,int length , ArrayList<Res> res ,ArrayList<Integer> verRes){
         this.name = name;
         this.length = length;
         this.arrayRes = res;
-        this.lengthRes = lengthRes;
+        this.verRes = verRes;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MyThread implements Runnable{
 
             //заполняем вероятности использования ресурса
             for (int i = 0; i < arrayRes.size(); i++) {
-                arrayRes.get(i).setLenght(lengthRes.get(i));
+                arrayRes.get(i).setLenght(verRes.get(i));
             }
             //цикл выывода на экран времени выполнения потока и его ресурсов
             for (int i = 0; i < length; i++) {
