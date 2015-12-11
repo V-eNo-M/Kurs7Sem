@@ -12,7 +12,7 @@ public class ReadFromFile {
     public ReadFromFile() throws FileNotFoundException {
         Read();
     }
-    //читаем из файла
+    //С‡РёС‚Р°РµРј РёР· С„Р°Р№Р»Р°
     private void Read() throws FileNotFoundException {
         Scanner in = null;
         try {

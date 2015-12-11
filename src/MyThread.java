@@ -6,11 +6,7 @@ import java.util.Random;
  */
 public class MyThread implements Runnable{
     private String name;
-
-
-    private int Glj ;
-
-
+    
     public ArrayList<Integer> getLengthRes() {
         return lengthRes;
     }
